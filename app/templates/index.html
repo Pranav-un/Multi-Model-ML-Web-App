@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Model Predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-robot me-2"></i>ML Model Predictor
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container main-content">
+        <div class="row">
+            <!-- Left Column - Model Selection -->
+            <div class="col-lg-8">
+                <div class="card main-card">
+                    <div class="card-body">
+                        <div class="section-header">
+                            <h2><i class="fas fa-chart-line me-2"></i>Make Predictions</h2>
+                            <p class="text-muted">Select a model and enter the required parameters to get predictions</p>
+                        </div>
+
+                        <form id="predictionForm" class="model-selection-section">
+                            <div class="model-selector">
+                                <label for="modelSelect" class="form-label">Select Prediction Model</label>
+                                <select class="form-select" id="modelSelect" name="model">
+                                    <option value="">Choose a model...</option>
+                                    <option value="salary">Employee Salary Prediction [Simple Linear Regression]</option>
+                                    <option value="profit">Startup Profit Prediction [Multiple Linear Regression]</option>
+                                    <option value="loan">Loan Approval Prediction [Logistic Regression]</option>
+                                    <option value="house">House Price Prediction [K-Nearest Neighbors]</option>
+                                    <option value="fuel">Car Fuel Efficiency Prediction [Polynomial Regression]</option>
+                                </select>
+                            </div>
+
+                            <div id="modelDescription" class="model-description">
+                                <!-- Model description will be inserted here -->
+                            </div>
+
+                            <div id="inputFields" class="input-section">
+                                <!-- Dynamic input fields will be inserted here -->
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 mt-4" id="predictButton">
+                                <i class="fas fa-calculator me-2"></i>Make Prediction
+                            </button>
+                        </form>
+
+                        <div id="result" class="mt-4" style="display: none;">
+                            <div class="result-card">
+                                <div class="result-header">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    <h4>Prediction Result</h4>
+                                </div>
+                                <div class="result-content">
+                                    <p id="predictionValue" class="mb-0"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Model Information -->
+            <div class="col-lg-4">
+                <div class="info-section">
+                    <div class="info-card">
+                        <div class="info-header">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <h4>About the Models</h4>
+                            <p class="text-muted">Learn about our machine learning models and their predictions</p>
+                        </div>
+                        <div class="model-info">
+                            <div class="model-item">
+                                <div class="model-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="model-details">
+                                    <h5>Employee Salary Prediction</h5>
+                                    <p class="model-type">Simple Linear Regression</p>
+                                    <p class="model-description">Predicts an employee's salary based on years of experience. This model helps organizations make informed decisions about compensation packages.</p>
+                                    <div class="model-features">
+                                        <span class="feature-tag">Input: Years of Experience</span>
+                                        <span class="feature-tag">Output: Annual Salary</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="model-item">
+                                <div class="model-icon">
+                                    <i class="fas fa-chart-bar"></i>
+                                </div>
+                                <div class="model-details">
+                                    <h5>Startup Profit Prediction</h5>
+                                    <p class="model-type">Multiple Linear Regression</p>
+                                    <p class="model-description">Forecasts a startup's profit based on multiple factors including R&D spending, administration costs, and marketing budget.</p>
+                                    <div class="model-features">
+                                        <span class="feature-tag">Input: R&D, Admin, Marketing</span>
+                                        <span class="feature-tag">Output: Profit</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="model-item">
+                                <div class="model-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="model-details">
+                                    <h5>Loan Approval Prediction</h5>
+                                    <p class="model-type">Logistic Regression</p>
+                                    <p class="model-description">Determines the probability of loan approval based on applicant's credit score, income, and other financial indicators.</p>
+                                    <div class="model-features">
+                                        <span class="feature-tag">Input: Credit Score, Income</span>
+                                        <span class="feature-tag">Output: Approval Probability</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="model-item">
+                                <div class="model-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="model-details">
+                                    <h5>House Price Prediction</h5>
+                                    <p class="model-type">K-Nearest Neighbors</p>
+                                    <p class="model-description">Estimates house prices using location-based features and property characteristics, considering similar properties in the area.</p>
+                                    <div class="model-features">
+                                        <span class="feature-tag">Input: Location, Size, Features</span>
+                                        <span class="feature-tag">Output: Price</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="model-item">
+                                <div class="model-icon">
+                                    <i class="fas fa-chart-pie"></i>
+                                </div>
+                                <div class="model-details">
+                                    <h5>Car Fuel Efficiency</h5>
+                                    <p class="model-type">Polynomial Regression</p>
+                                    <p class="model-description">Predicts a car's fuel efficiency (MPG) based on engine size, considering non-linear relationships between variables.</p>
+                                    <div class="model-features">
+                                        <span class="feature-tag">Input: Engine Size</span>
+                                        <span class="feature-tag">Output: MPG</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0">© 2024 ML Model Predictor. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <a href="#" class="text-muted me-3"><i class="fas fa-github"></i></a>
+                    <a href="#" class="text-muted"><i class="fas fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html> 
